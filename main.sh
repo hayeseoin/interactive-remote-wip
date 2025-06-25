@@ -35,32 +35,5 @@ for i in "${!keys[@]}"; do
   printf "  [%d] %s\n" "$index" "${keys[i]}"
 done
 
-echo ""
-read -rp "Select a script to run [1-${#keys[@]}]: " choice < /dev/tty
-
-# Validate input
-if [[ ! "$choice" =~ ^[0-9]+$ ]] || (( choice < 1 || choice > ${#keys[@]} )); then
-  echo "❌ Invalid choice."
-  exit 1
-fi
-
-selected_key="${keys[choice-1]}"
-selected_url="${SCRIPT_MAP[$selected_key]}"
-
-echo ""
-echo "🔧 Running: $selected_key"
-echo "📡 Fetching from: $selected_url"
-echo ""
-
-# === Fetch, run, clean up ===
-
-tmp_script=$(mktemp)
-
-if curl -fsSL "$selected_url" -o "$tmp_script"; then
-  chmod +x "$tmp_script"
-  "$tmp_script"
-  rm -f "$tmp_script"
-else
-  echo "❌ Failed to download script."
-  exit 1
-fi
+echo "Select a script to run [1-${#keys[@]}]: " choice
+read -r choice_script < /dev/tty
