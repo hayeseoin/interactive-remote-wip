@@ -36,7 +36,7 @@ for i in "${!keys[@]}"; do
 done
 
 echo ""
-read -rp "Select a script to run [1-${#keys[@]}]: " choice << /dev/tty
+read -rp "Select a script to run [1-${#keys[@]}]: " choice < /dev/tty
 
 # Validate input
 if [[ ! "$choice" =~ ^[0-9]+$ ]] || (( choice < 1 || choice > ${#keys[@]} )); then
